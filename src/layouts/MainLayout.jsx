@@ -8,7 +8,15 @@ import { useApp } from '../context/AppContext';
 
 export default function MainLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { isSessionLocked, setIsSessionLocked, settings, addToast } = useApp();
+  const {
+    isSessionLocked,
+    setIsSessionLocked,
+    settings,
+    addToast,
+    backendConnected,
+    backendError,
+    refreshFromBackend,
+  } = useApp();
 
   const handleUnlockSession = (e) => {
     e.preventDefault();
@@ -25,6 +33,21 @@ export default function MainLayout() {
       <div className="lg:pl-64 flex flex-col min-h-screen">
         <Navbar onOpenSidebar={() => setSidebarOpen(true)} />
 
+        {backendError && !backendConnected && (
+          <div className="mx-4 sm:mx-6 lg:mx-8 mt-4 px-4 py-2.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-800 flex flex-wrap items-center justify-between gap-2">
+            <span>
+              <strong>{backendError}</strong> — Operating seamlessly with local demo data fallback.
+            </span>
+            <button
+              type="button"
+              onClick={() => refreshFromBackend(false)}
+              className="px-3 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-[11px] transition"
+            >
+              Retry Server Connection
+            </button>
+          </div>
+        )}
+
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-[1600px] w-full mx-auto">
           <Outlet />
         </main>
@@ -36,7 +59,15 @@ export default function MainLayout() {
           </div>
           <div className="flex items-center gap-4">
             <span>Plant ID: {settings?.company?.code || 'OC-MFG-IND-01'}</span>
-            <span className="text-emerald-600 font-semibold">● LocalStorage Sync Active</span>
+            {backendConnected ? (
+              <span className="text-emerald-600 font-semibold">
+                ● Connected to MongoDB API (localhost:5000)
+              </span>
+            ) : (
+              <span className="text-amber-600 font-semibold">
+                ● LocalStorage Fallback Mode
+              </span>
+            )}
           </div>
         </footer>
       </div>

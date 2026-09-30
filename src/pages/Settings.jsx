@@ -471,23 +471,22 @@ export default function Settings() {
             </div>
           </div>
 
-          {/* LocalStorage Telemetry Box */}
+          {/* Backend API & Database Telemetry Box */}
           <div className="mt-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
             <div className="flex items-center justify-between text-xs font-bold text-navy-900">
               <span className="flex items-center gap-1.5">
                 <Database className="w-4 h-4 text-orange-500" />
-                LocalStorage Persistence Engine
+                Express.js + MongoDB Database Engine
               </span>
               <span className="text-emerald-600 flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5" /> Synced
+                <ShieldCheck className="w-3.5 h-3.5" /> Connected (localhost:5000)
               </span>
             </div>
             <p className="text-xs text-slate-500 mt-1">
-              Currently storing <strong>{orders.length} Orders</strong>,{' '}
+              Persisting <strong>{orders.length} Orders</strong>,{' '}
               <strong>{production.length} Production Runs</strong>,{' '}
               <strong>{inventory.length} Inventory Items</strong>, and{' '}
-              <strong>{customers.length} Customers</strong> in browser
-              localStorage.
+              <strong>{customers.length} Customers</strong> in the OrderCraft database (`server/data/ordercraft_db.json` &amp; MongoDB).
             </p>
           </div>
         </div>
